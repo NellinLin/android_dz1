@@ -2,10 +2,11 @@ package com.shishova.numbers.app;
 
 import androidx.appcompat.app.AppCompatActivity;
 import com.shishova.numbers.app.FragmentNumbersList;
+import com.shishova.numbers.app.FragmentNumberView;
 
 import android.os.Bundle;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements FragmentNumbersList.Listener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,5 +19,15 @@ public class MainActivity extends AppCompatActivity {
                     .add(R.id.main_activity__liner_layout, new FragmentNumbersList())
                     .commit();
         }
+    }
+
+    public void getFragmentForNumber(Bundle args) {
+        FragmentNumberView fragmentNumberView = new FragmentNumberView();
+        fragmentNumberView.setArguments(args);
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_activity__liner_layout, fragmentNumberView)
+                .addToBackStack(null)
+                .commit();
     }
 }

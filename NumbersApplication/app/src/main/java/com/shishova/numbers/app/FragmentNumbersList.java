@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,7 +24,13 @@ public class FragmentNumbersList extends Fragment {
     public final String CLASS_NAME = "FragmentNumbersList";
     public final String NUMBERS_COUNT = "numbersCount";
 
+
     private static ArrayList<Integer> numbersData;
+
+    private Listener listener;
+    public interface Listener {
+        void getFragmentForNumber(Bundle args);
+    }
 
     private RecycleViewAdapter myDateAdapter;
     private RecyclerView recycle;
@@ -35,6 +42,7 @@ public class FragmentNumbersList extends Fragment {
         Log.d(CLASS_NAME, "onAttach");
 
         this.context = context;
+        this.listener = (Listener) context;
     }
 
     @Override
@@ -54,6 +62,22 @@ public class FragmentNumbersList extends Fragment {
         }
 
         myDateAdapter = new RecycleViewAdapter(numbersData);
+        myDateAdapter.setNumbersData(numbersData);
+        myDateAdapter.setContext(this.context);
+
+        myDateAdapter.setOnEntryClickListener(new RecycleViewAdapter.OnEntryClickListener() {
+            @Override
+            public void onEntryClick(View view, int position) {
+                Log.d("onClick", "Click");
+
+                int num = myDateAdapter.getNumbersData().get(position);
+
+                Bundle argForNumView = new Bundle();
+                argForNumView.putInt(FragmentNumberView.EXTRA_NUMBER, num);
+
+                listener.getFragmentForNumber(argForNumView);
+            }
+        });
     }
 
     @Nullable
