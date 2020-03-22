@@ -1,6 +1,8 @@
 package com.shishova.numbers.app;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,7 +22,7 @@ public class FragmentNumbersList extends Fragment {
     public final String CLASS_NAME = "FragmentNumbersList";
     public final String NUMBERS_COUNT = "numbersCount";
 
-    private static ArrayList<Integer> numbersData = new ArrayList<>();
+    private static ArrayList<Integer> numbersData;
 
     private RecycleViewAdapter myDateAdapter;
     private RecyclerView recycle;
@@ -45,6 +47,7 @@ public class FragmentNumbersList extends Fragment {
             numbersCount = savedInstanceState.getInt(NUMBERS_COUNT);
         }
 
+        numbersData = new ArrayList<>();
         for (int i = 1; i <= numbersCount; i++) {
             numbersData.add(i);
         }
@@ -69,6 +72,10 @@ public class FragmentNumbersList extends Fragment {
         super.onStart();
 
         int colCount = 3;
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            colCount = 4;
+        }
         recycle.setLayoutManager(new GridLayoutManager(context, colCount));
         recycle.setAdapter(myDateAdapter);
     }

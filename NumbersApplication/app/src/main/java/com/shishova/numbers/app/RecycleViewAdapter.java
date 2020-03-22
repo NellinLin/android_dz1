@@ -1,5 +1,6 @@
 package com.shishova.numbers.app;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,12 +27,26 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         int currentNumber = numbersData.get(position);
+        int color = Color.BLUE;
+
+        if (currentNumber % 2 == 0) {
+            color = Color.RED;
+        }
         holder.numberView.setText(String.valueOf(currentNumber));
+        holder.numberView.setTextColor(color);
     }
 
     @Override
     public int getItemCount() {
         return numbersData.size();
+    }
+
+    public ArrayList<Integer> getNumbersData() {
+        return numbersData;
+    }
+
+    public void setNumbersData(ArrayList<Integer> newNumbers) {
+        numbersData = newNumbers;
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
