@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -63,6 +64,14 @@ public class FragmentNumbersList extends Fragment {
         View view = inflater.inflate(R.layout.fragment_numbers_list, container, false);
         recycle = view.findViewById(R.id.fragments_number_list__view);
 
+        Button button = view.findViewById(R.id.fragments_number_list__button);
+        button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                numbersData.add(numbersData.size() + 1);
+                myDateAdapter.setNumbersData(numbersData);
+            }
+        });
         return view;
     }
 

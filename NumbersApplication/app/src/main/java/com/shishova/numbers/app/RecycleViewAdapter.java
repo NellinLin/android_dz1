@@ -47,6 +47,8 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
 
     public void setNumbersData(ArrayList<Integer> newNumbers) {
         numbersData = newNumbers;
+
+        notifyItemInserted(numbersData.size() - 1);
     }
 
     class MyViewHolder extends RecyclerView.ViewHolder {
