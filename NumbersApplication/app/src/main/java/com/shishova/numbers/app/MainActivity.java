@@ -1,8 +1,6 @@
 package com.shishova.numbers.app;
 
 import androidx.appcompat.app.AppCompatActivity;
-import com.shishova.numbers.app.FragmentNumbersList;
-import com.shishova.numbers.app.FragmentNumberView;
 
 import android.os.Bundle;
 
@@ -13,7 +11,9 @@ public class MainActivity extends AppCompatActivity implements FragmentNumbersLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Проверка: не пустной ли bundle, необходимо создавать фрагмент только  в начальном запуске Activity
         if (savedInstanceState == null) {
+            // Получаем менеджер фрагментов и делаем транзакцию добавления фрагмента
             getSupportFragmentManager()
                     .beginTransaction()
                     .add(R.id.main_activity__liner_layout, new FragmentNumbersList())
@@ -21,9 +21,14 @@ public class MainActivity extends AppCompatActivity implements FragmentNumbersLi
         }
     }
 
+    /**
+     * Реализует транзакцию для отображения фрагмента с числом
+     * @param args - bundle c числом, на которое нажали
+     */
     public void getFragmentForNumber(Bundle args) {
         FragmentNumberView fragmentNumberView = new FragmentNumberView();
         fragmentNumberView.setArguments(args);
+        // Замена существующего фрагмента с добавлением стека для удаления объекта по нажатию "Назад"
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_activity__liner_layout, fragmentNumberView)

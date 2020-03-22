@@ -1,22 +1,17 @@
 package com.shishova.numbers.app;
 
 import android.content.Context;
-import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.GridLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import java.util.ArrayList;
 
 public class FragmentNumberView extends Fragment {
 
@@ -46,7 +41,15 @@ public class FragmentNumberView extends Fragment {
         View view = inflater.inflate(R.layout.fragment_number_view, container, false);
         TextView textNum = view.findViewById(R.id.fragment_number_view__title);
 
+        int color = Color.BLUE;
+
+        if (number % 2 == 0) {
+            color = Color.RED;
+        }
+
         textNum.setText(number + "");
+        textNum.setTextColor(color);
+
         return view;
     }
 

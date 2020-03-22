@@ -2,13 +2,10 @@ package com.shishova.numbers.app;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,14 +17,10 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
     ArrayList<Integer> numbersData = new ArrayList<>();
     Context context;
 
-    private OnEntryClickListener onEntryClickListener;
-    public interface OnEntryClickListener {
-        void onEntryClick(View view, int position);
-    }
+    View.OnClickListener myOnClickListener;
 
-    public void setOnEntryClickListener(OnEntryClickListener onEntryClickListener) {
-        Log.d("onClick", "SetEntry");
-        this.onEntryClickListener = onEntryClickListener;
+    public void setMyOnClickListener(View.OnClickListener myOnClickListener) {
+        this.myOnClickListener = myOnClickListener;
     }
 
 
@@ -53,40 +46,47 @@ public class RecycleViewAdapter extends RecyclerView.Adapter<RecycleViewAdapter.
         holder.numberView.setTextColor(color);
     }
 
+    class MyViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView numberView;
+
+        public MyViewHolder(@NonNull View itemView) {
+            super(itemView);
+            // Получение TextView, куда будет уставновлено число
+            numberView = itemView.findViewById(R.id.item__title);
+            // Добавление обработчика нажатия
+            numberView.setOnClickListener(myOnClickListener);
+        }
+    }
+
     @Override
     public int getItemCount() {
         return numbersData.size();
     }
 
+    /**
+     * Получение списка с числами
+     * @return текущий список
+     */
     public ArrayList<Integer> getNumbersData() {
         return numbersData;
     }
 
+    /**
+     * Добавление чисел в список + уведомление об изменении данных
+     * @param newNumbers - список с числами
+     */
     public void setNumbersData(ArrayList<Integer> newNumbers) {
         numbersData = newNumbers;
 
         notifyItemInserted(numbersData.size() - 1);
     }
 
+    /**
+     * Добавление констекста
+     * @param cont - констекст
+     */
     public void setContext(Context cont) {
         context = cont;
-    }
-
-    class MyViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-
-        private TextView numberView;
-
-        public MyViewHolder(@NonNull View itemView) {
-            super(itemView);
-            Log.d("onClick", "Click");
-            numberView = itemView.findViewById(R.id.item__title);
-            numberView.setOnClickListener(this);
-        }
-
-        @Override
-        public void onClick(View v) {
-            Log.d("onClick", "Click");
-            onEntryClickListener.onEntryClick(v, getLayoutPosition());
-        }
     }
 }

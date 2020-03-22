@@ -1,6 +1,5 @@
 package com.shishova.numbers.app;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -24,17 +23,16 @@ public class FragmentNumbersList extends Fragment {
     public final String CLASS_NAME = "FragmentNumbersList";
     public final String NUMBERS_COUNT = "numbersCount";
 
-
     private static ArrayList<Integer> numbersData;
+
+    private RecycleViewAdapter myDateAdapter;
+    private RecyclerView recycle;
+    private Context context;
 
     private Listener listener;
     public interface Listener {
         void getFragmentForNumber(Bundle args);
     }
-
-    private RecycleViewAdapter myDateAdapter;
-    private RecyclerView recycle;
-    private Context context;
 
     @Override
     public void onAttach(@NonNull Context context) {
@@ -50,7 +48,7 @@ public class FragmentNumbersList extends Fragment {
         super.onCreate(savedInstanceState);
         Log.d(CLASS_NAME, "onCreate");
 
-        int numbersCount = 5;
+        int numbersCount = 100;
 
         if (savedInstanceState != null) {
             numbersCount = savedInstanceState.getInt(NUMBERS_COUNT);
@@ -62,19 +60,15 @@ public class FragmentNumbersList extends Fragment {
         }
 
         myDateAdapter = new RecycleViewAdapter(numbersData);
-        myDateAdapter.setNumbersData(numbersData);
         myDateAdapter.setContext(this.context);
 
-        myDateAdapter.setOnEntryClickListener(new RecycleViewAdapter.OnEntryClickListener() {
+        myDateAdapter.setMyOnClickListener(new View.OnClickListener() {
             @Override
-            public void onEntryClick(View view, int position) {
-                Log.d("onClick", "Click");
-
-                int num = myDateAdapter.getNumbersData().get(position);
+            public void onClick(View v) {
+                int num = Integer.parseInt(((TextView) v).getText().toString());
 
                 Bundle argForNumView = new Bundle();
                 argForNumView.putInt(FragmentNumberView.EXTRA_NUMBER, num);
-
                 listener.getFragmentForNumber(argForNumView);
             }
         });
@@ -96,6 +90,7 @@ public class FragmentNumbersList extends Fragment {
                 myDateAdapter.setNumbersData(numbersData);
             }
         });
+
         return view;
     }
 
@@ -118,6 +113,7 @@ public class FragmentNumbersList extends Fragment {
         Log.d(CLASS_NAME, "onSaveInstanceState");
         super.onSaveInstanceState(outState);
 
+        // Сохранение текущего размера списка
         outState.putInt(NUMBERS_COUNT, numbersData.size());
     }
 
