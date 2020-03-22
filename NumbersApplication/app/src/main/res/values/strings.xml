@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">NumbersApplication</string>
+    <string name="button_add_number">Add next number</string>
+</resources>
